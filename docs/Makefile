@@ -1,16 +1,17 @@
-TEXFILES := $(wildcard *.tex)
+TEXFILES = $(wildcard *.tex)
 REPORTS = $(TEXFILES:.tex=.pdf)
 
-DIAFILES := $(wildcard *.dia)
-DIAIMAGES = $(DIAFILES:.dia=.png)
+DIAPATH = generated_images
+DIAFILES = $(wildcard *.dia)
+DIAIMAGES = $(addprefix $(DIAPATH)/, $(DIAFILES:.dia=.png))
 
-reports: $(REPORTS)
+reports: $(REPORTS) $(DIAIMAGES)
 
 %.pdf: %.tex
 	pdflatex $<
 	pdflatex $<
 
-%.png: %.dia
+$(DIAPATH)/%.png: %.dia
 	dia $< -e $@
 
 clean:
@@ -18,5 +19,6 @@ clean:
 	rm -f *.log
 	rm -f *.aux
 	rm -f *.out
+	rm -f generated_images/*.png
 
 .PHONY: reports clean
