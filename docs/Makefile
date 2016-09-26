@@ -5,9 +5,9 @@ DIAPATH = generated_images
 DIAFILES = $(wildcard *.dia)
 DIAIMAGES = $(addprefix $(DIAPATH)/, $(DIAFILES:.dia=.png))
 
-reports: $(REPORTS) $(DIAIMAGES)
+reports: $(REPORTS)
 
-%.pdf: %.tex
+%.pdf: %.tex $(DIAIMAGES)
 	pdflatex $<
 	pdflatex $<
 
