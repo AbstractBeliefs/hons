@@ -4,6 +4,11 @@
 *.out
 *.pdf
 
+# C/C++
+*.a
+*.o
+*.out
+
 # Vim
 *.swp
 
