@@ -1,21 +1,40 @@
 all: test
-clean: testclean
+clean: testclean libraryclean
 
 CXX = clang++
+CC = clang
+
+# Libraries
+
+LIB_CFLAGS = -I include
+
+src/common.o: include/common.h src/common.c
+	$(CC) $(LIB_CFLAGS) -c src/common.c -o src/common.o
+
+src/cpu.o: include/cpu.h src/cpu.c
+	$(CC) $(LIB_CFLAGS) -c src/cpu.c -o src/cpu.o
+src/gpu.o: include/gpu.h src/gpu.c
+	$(CC) $(LIB_CFLAGS) -c src/gpu.c -o src/gpu.o
+
+libcpu.a: src/cpu.o src/common.o
+	$(AR) rcs $@ $^
+libgpu.a: src/gpu.o src/common.o
+	$(AR) rcs $@ $^
+
+libraryclean:
+	rm -f *.a src/*.o
 
 # Tests
 
-TEST_CXXFLAGS = -I $(GTEST_DIR)/include
-TESTSOURCES = $(wildcard tests/testsrc/*.cpp)
-TESTOBJECTS = $(TESTSOURCES:tests/testsrc/%.cpp=tests/%.o)
+TEST_CXXFLAGS = -I $(GTEST_DIR)/include -I include
 
 test: tests/test.out
 	tests/test.out
 
-tests/%.o: tests/testsrc/%.cpp
+tests/commontest.o: tests/testsrc/commontest.cpp src/common.o include/common.h
 	$(CXX) $(TEST_CXXFLAGS) -c $< -o $@
 
-tests/test.out: $(TESTOBJECTS) tests/gtest_main.a
+tests/test.out: src/common.o tests/commontest.o tests/gtest_main.a
 	$(CXX) $(TEST_CXXFLAGS) -lpthread $^ -o $@
 
 testclean:
@@ -41,4 +60,4 @@ tests/gtest_main.o : $(GTEST_SRCS_)
 	$(CXX) $(GTEST_CPPFLAGS) -I$(GTEST_DIR) $(GTEST_CXXFLAGS) -c \
             $(GTEST_DIR)/src/gtest_main.cc -o $@
 
-.PHONY: all clean test testclean
+.PHONY: all clean test testclean libraryclean
