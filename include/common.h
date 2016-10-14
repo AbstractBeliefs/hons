@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -35,6 +36,8 @@ typedef struct {
 } vs_viewshed_t;
 
 vs_heightmap_t heightmap_from_array(uint32_t rows, uint32_t cols, int32_t *input);
+vs_heightmap_t heightmap_from_file(FILE* inputfile);
+
 vs_viewshed_t viewshed_from_array(uint32_t rows, uint32_t cols, bool *input);
 vs_viewshed_t viewshed_from_heightmap(vs_heightmap_t heightmap);
 

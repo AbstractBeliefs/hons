@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-
+#include <stdio.h>
 
 vs_heightmap_t heightmap_from_array(uint32_t rows, uint32_t cols, int32_t *input){
     vs_heightmap_t heightmap;
@@ -22,6 +22,56 @@ vs_heightmap_t heightmap_from_array(uint32_t rows, uint32_t cols, int32_t *input
     memcpy(heightmap.heightmap, input, rows*cols*sizeof(int32_t));
 
     return heightmap;
+}
+
+vs_heightmap_t heightmap_from_file(FILE* inputfile){
+    vs_heightmap_t map;
+    
+    // Get the file length
+    fseek(inputfile, 0, SEEK_END);
+    size_t fsize = ftell(inputfile);
+    rewind(inputfile);
+
+    // Allocate buffers
+    char* buffer = malloc(fsize*sizeof(char)); // TODO: needs errorchecked
+    size_t result = fread(buffer, 1, fsize, inputfile); // TODO: needs errorchecked for != fsize
+    buffer[fsize+sizeof(char)-1] = '\0';
+    
+    // Parse file
+    bool r_parse = false;
+    bool c_parse = false;
+    size_t cellcount = 0;
+
+    char* fragment = strtok(buffer, " \n");
+    while (fragment != NULL){
+        if (!strcmp(fragment, "NROWS")){
+            fragment = strtok(NULL, " \n"); map.rows = atoi(fragment);
+            if ((r_parse = true) && c_parse){ map.heightmap = calloc(map.rows * map.cols, sizeof(int32_t)); }
+        }
+        else if (!strcmp(fragment, "NCOLS")){
+            fragment = strtok(NULL, " \n"); map.cols = atoi(fragment);
+            if ((c_parse = true) && r_parse){ map.heightmap = calloc(map.rows * map.cols, sizeof(int32_t)); }
+        }
+        else if (!strcmp(fragment, "XLLCORNER") || !strcmp(fragment, "XLLCENTER")){
+            if (!strcmp(fragment, "XLLCORNER")){ map.corner = true; } else { map.corner = false; }
+            fragment = strtok(NULL, " \n"); map.xll = atoi(fragment);
+        }
+        else if (!strcmp(fragment, "YLLCORNER") || !strcmp(fragment, "YLLCENTER")){
+            if (!strcmp(fragment, "YLLCORNER")){ map.corner = true; } else { map.corner = false; }
+            fragment = strtok(NULL, " \n"); map.yll = atoi(fragment);
+        }
+        else if (!strcmp(fragment, "CELLSIZE")){ fragment = strtok(NULL, " \n"); map.cellsize = atoi(fragment); }
+        else if (!strcmp(fragment, "NODATA_VALUE")){ fragment = strtok(NULL, " \n"); map.nodata = atoi(fragment); }
+        else {
+            if (map.heightmap && cellcount < map.cols*map.rows){
+                map.heightmap[cellcount++] = atoi(fragment);
+            }
+        }
+
+        fragment = strtok(NULL, " \n");
+    }
+    
+    return map;
 }
 
 
@@ -58,3 +108,4 @@ vs_viewshed_t viewshed_from_heightmap(vs_heightmap_t heightmap){
 
     return viewshed;
 }
+
