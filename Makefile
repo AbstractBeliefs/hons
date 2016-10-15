@@ -7,6 +7,7 @@ CC = clang
 # Libraries
 
 LIB_CFLAGS = -I include
+LIBRARIES = libcpu.a libgpu.a
 
 src/common.o: include/common.h src/common.c
 	$(CC) $(LIB_CFLAGS) -c src/common.c -o src/common.o
@@ -27,6 +28,8 @@ libraryclean:
 # Tests
 
 TEST_CXXFLAGS = -I $(GTEST_DIR)/include -I include
+TEST_OBJECTS = tests/commontest.o tests/cputest.o
+TEST_LIBRARIES = $(LIBRARIES) tests/gtest_main.a
 
 test: tests/test.out
 	tests/test.out
@@ -34,7 +37,10 @@ test: tests/test.out
 tests/commontest.o: tests/testsrc/commontest.cpp src/common.o include/common.h
 	$(CXX) $(TEST_CXXFLAGS) -c $< -o $@
 
-tests/test.out: src/common.o tests/commontest.o tests/gtest_main.a
+tests/cputest.o: tests/testsrc/cputest.cpp include/cpu.h
+	$(CXX) $(TEST_CXXFLAGS) -c $< -o $@
+
+tests/test.out: $(TEST_OBJECTS) $(TEST_LIBRARIES)
 	$(CXX) $(TEST_CXXFLAGS) -lpthread $^ -o $@
 
 testclean:
