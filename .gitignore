@@ -9,6 +9,10 @@
 *.o
 *.out
 
+# Python
+*.pyc
+*.pyo
+
 # Vim
 *.swp
 
