@@ -39,6 +39,7 @@ vs_heightmap_t heightmap_from_array(uint32_t rows, uint32_t cols, int32_t *input
 vs_heightmap_t heightmap_from_file(FILE* inputfile);
 
 vs_viewshed_t viewshed_from_array(uint32_t rows, uint32_t cols, bool *input);
+void viewshed_to_file(vs_viewshed_t viewshed, FILE* outputfile);
 vs_viewshed_t viewshed_from_heightmap(vs_heightmap_t heightmap);
 
 #ifdef __cplusplus

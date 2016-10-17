@@ -35,7 +35,7 @@ TEST(Common, HeightmapFromFile){
         "0 1 2 1 0\n"
         "0 0 1 0 0\n";
 
-    FILE *rasterfile = fmemopen((char*)rasterstring, strlen(rasterstring), "r");
+    FILE* rasterfile = fmemopen((char*)rasterstring, strlen(rasterstring), "r");
 
     vs_heightmap_t map = heightmap_from_file(rasterfile);
 
@@ -69,3 +69,41 @@ TEST(Common, ViewshedFromHeightmap){
     EXPECT_EQ(viewshed.yll, 5);
 }
 
+TEST(Common, ViewshedToFile){
+    bool viewshed_data[] = {
+        0, 0, 1, 0, 0,
+        0, 1, 1, 1, 0,
+        1, 1, 1, 1, 1,
+        0, 1, 1, 1, 0,
+        0, 0, 1, 0, 0
+    };
+
+    vs_viewshed_t viewshed;
+    viewshed.cols = 5;
+    viewshed.rows = 5;
+    viewshed.xll = 200;
+    viewshed.yll = 500;
+    viewshed.corner = true;
+    viewshed.cellsize = 10;
+    viewshed.viewshed = viewshed_data;
+
+    const char* rasterstring = \
+        "NCOLS 5\n"
+        "NROWS 5\n"
+        "XLLCORNER 200\n"
+        "YLLCORNER 500\n"
+        "CELLSIZE 10\n"
+        "0 0 1 0 0\n"
+        "0 1 1 1 0\n"
+        "1 1 1 1 1\n"
+        "0 1 1 1 0\n"
+        "0 0 1 0 0\n";
+
+    char* buffer = (char*)calloc(256, sizeof(char));
+    FILE* rasterfile = fmemopen(buffer, 256, "w");
+
+    viewshed_to_file(viewshed, rasterfile);
+
+    EXPECT_EQ(strcmp(buffer, rasterstring), 0);
+    free(buffer);
+}

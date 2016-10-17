@@ -27,13 +27,23 @@ vs_heightmap_t heightmap_from_array(uint32_t rows, uint32_t cols, int32_t *input
 vs_heightmap_t heightmap_from_file(FILE* inputfile){
     vs_heightmap_t map;
     
+    map.rows = 0;
+    map.cols = 0;
+    map.cellsize = 1;
+
+    map.corner = true;
+    map.xll = 0;
+    map.yll = 0;
+
+    map.nodata = -9999;
+
     // Get the file length
     fseek(inputfile, 0, SEEK_END);
     size_t fsize = ftell(inputfile);
     rewind(inputfile);
 
     // Allocate buffers
-    char* buffer = malloc(fsize*sizeof(char)); // TODO: needs errorchecked
+    char* buffer = calloc(fsize, sizeof(char)); // TODO: needs errorchecked
     size_t result = fread(buffer, 1, fsize, inputfile); // TODO: needs errorchecked for != fsize
     buffer[fsize+sizeof(char)-1] = '\0';
     
@@ -91,6 +101,24 @@ vs_viewshed_t viewshed_from_array(uint32_t rows, uint32_t cols, bool *input){
     memcpy(viewshed.viewshed, input, rows*cols*sizeof(int32_t));
 
     return viewshed;
+}
+
+void viewshed_to_file(vs_viewshed_t viewshed, FILE* outputfile){
+    fprintf(outputfile, "NCOLS %d\n", viewshed.cols);
+    fprintf(outputfile, "NROWS %d\n", viewshed.rows);
+    fprintf(outputfile, "XLL%s %d\n", (viewshed.corner ? "CORNER" : "CENTER"), viewshed.xll);
+    fprintf(outputfile, "YLL%s %d\n", (viewshed.corner ? "CORNER" : "CENTER"), viewshed.yll);
+    fprintf(outputfile, "CELLSIZE %d\n", viewshed.cellsize);
+
+    for (size_t row = 0; row < viewshed.rows; row++){
+        for (size_t col = 0; col < viewshed.cols; col++){
+            fprintf(outputfile, "%d ", viewshed.viewshed[row*viewshed.cols+col]);
+        }
+        fseek(outputfile, -1, SEEK_CUR);
+        fprintf(outputfile, "\n");
+    }
+    fflush(outputfile);
+    return;
 }
 
 vs_viewshed_t viewshed_from_heightmap(vs_heightmap_t heightmap){
