@@ -1,5 +1,5 @@
 all: test
-clean: testclean libraryclean
+clean: testclean libraryclean toolclean
 
 CXX = clang++
 CC = clang
@@ -24,6 +24,13 @@ libgpu.a: src/gpu.o src/common.o
 
 libraryclean:
 	rm -f *.a src/*.o
+
+# Tools
+tools/cpuviewshed/viewshed: tools/cpuviewshed/main.c libcpu.a
+	$(CC) -I include -lm $^ -o $@
+
+toolclean:
+	rm -f tools/cpuviewshed/viewshed
 
 # Tests
 
@@ -66,4 +73,4 @@ tests/gtest_main.o : $(GTEST_SRCS_)
 	$(CXX) $(GTEST_CPPFLAGS) -I$(GTEST_DIR) $(GTEST_CXXFLAGS) -c \
             $(GTEST_DIR)/src/gtest_main.cc -o $@
 
-.PHONY: all clean test testclean libraryclean
+.PHONY: all clean test testclean libraryclean toolclean
