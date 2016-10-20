@@ -1,28 +1,9 @@
 from mayavi import mlab
 from esriparse import esriParser
+import sys
 
-heightmap_s = """\
-NCOLS 5
-NROWS 5
-0 0 1 0 0
-0 0 1 0 0
-0 0 0 0 0
-0 0 1 0 0
-0 0 1 0 0
-"""
-
-viewshed_s = """\
-NCOLS 5
-NROWS 5
-1 1 1 0 0
-1 1 1 0 1
-1 1 1 1 1
-1 1 1 0 1
-1 1 1 0 0
-"""
-
-heightmap = esriParser(heightmap_s).esri()
-viewshed = esriParser(viewshed_s).esri()
+heightmap = esriParser(open(sys.argv[-2], 'r').read()).esri()
+viewshed = esriParser(open(sys.argv[-1], 'r').read()).esri()
 
 if heightmap["headers"]["rows"] != viewshed["headers"]["rows"]: raise ValueError("Mismatched raster dimensions")
 if heightmap["headers"]["cols"] != viewshed["headers"]["cols"]: raise ValueError("Mismatched raster dimensions")
