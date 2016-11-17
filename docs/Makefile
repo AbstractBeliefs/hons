@@ -10,6 +10,7 @@ reports: $(REPORTS)
 %.pdf: %.tex $(DIAIMAGES)
 	pdflatex $<
 	pdflatex $<
+	pdflatex $<
 
 $(DIAPATH)/%.png: %.dia
 	dia $< -e $@

@@ -1,5 +1,6 @@
 # Latex
 *.log
+*.toc
 *.aux
 *.out
 *.pdf
