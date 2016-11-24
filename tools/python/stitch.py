@@ -11,6 +11,7 @@ ll_y = None
 ur_x = None
 ur_y = None
 cell_size = None
+maps = []
 
 # Iterate over every file and find the minimum and maximum x and y extents
 for root, dirs, files in os.walk(sys.argv[-2]):
@@ -28,6 +29,7 @@ for root, dirs, files in os.walk(sys.argv[-2]):
                 raise ValueError("the cell sizes don't match up!")
             else:
                 pass
+            maps.append(current_map)
         except Exception as e:
             print "Couldn't parse %s. Error: %s" %(map_file, str(e))
             continue
@@ -44,20 +46,18 @@ new_map = [
     for _ in range(y_range)
 ]
 
-for root, dirs, files in os.walk(sys.argv[-2]):
-    for map_file in [os.path.join(root, f) for f in files if f.endswith(".asc") or f.endswith(".esri")]:
-        print "Stitching %s..." % map_file
-        current_map = esriParser(open(map_file, 'r').read()).esri()
-        y_start = ((ur_y - ll_y) - (current_map["headers"]["Y_origin"]["offset"] + current_map["headers"]["rows"] * current_map["headers"]["cellsize"]))\
-                / current_map["headers"]["cellsize"]
-        y_extent = current_map["headers"]["rows"]
+for current_map in maps:
+    print "Stitching %s..." % map_file
+    y_start = ((ur_y - ll_y) - (current_map["headers"]["Y_origin"]["offset"] + current_map["headers"]["rows"] * current_map["headers"]["cellsize"]))\
+            / current_map["headers"]["cellsize"]
+    y_extent = current_map["headers"]["rows"]
 
-        x_start = (current_map["headers"]["X_origin"]["offset"] - ll_x) / current_map["headers"]["cellsize"]
-        x_extent = current_map["headers"]["cols"]
+    x_start = (current_map["headers"]["X_origin"]["offset"] - ll_x) / current_map["headers"]["cellsize"]
+    x_extent = current_map["headers"]["cols"]
 
-        for y in range(y_start, y_start+y_extent):
-            for x in range(x_start, x_start+x_extent):
-                new_map[y][x] = current_map["data"][y-y_start][x-x_start]
+    for y in range(y_start, y_start+y_extent):
+        for x in range(x_start, x_start+x_extent):
+            new_map[y][x] = current_map["data"][y-y_start][x-x_start]
 
 outfile = open(sys.argv[-1], 'w')
 outfile.write("NCOLS %d\n" %y_range)
