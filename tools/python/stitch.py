@@ -1,7 +1,7 @@
 import os
 import sys
 
-from esriparse import esriParser
+from fastparse import esriParser
 
 # TODO: make this work for multiple cellsizes
 

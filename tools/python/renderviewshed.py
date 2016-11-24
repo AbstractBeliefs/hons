@@ -1,5 +1,5 @@
 from mayavi import mlab
-from esriparse import esriParser
+from fastparse import esriParser
 import sys
 
 heightmap = esriParser(open(sys.argv[-2], 'r').read()).esri()
