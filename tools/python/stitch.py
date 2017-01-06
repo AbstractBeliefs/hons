@@ -29,6 +29,7 @@ for root, dirs, files in os.walk(sys.argv[-2]):
                 raise ValueError("the cell sizes don't match up!")
             else:
                 pass
+            current_map["name"] = map_file
             maps.append(current_map)
         except Exception as e:
             print "Couldn't parse %s. Error: %s" %(map_file, str(e))
@@ -47,9 +48,9 @@ new_map = [
 ]
 
 for current_map in maps:
-    print "Stitching %s..." % map_file
-    y_start = ((ur_y - ll_y) - (current_map["headers"]["Y_origin"]["offset"] + current_map["headers"]["rows"] * current_map["headers"]["cellsize"]))\
-            / current_map["headers"]["cellsize"]
+    print "Stitching %s..." % current_map["name"]
+    y_start = (ur_y - (current_map["headers"]["Y_origin"]["offset"] + (current_map["headers"]["rows"]*current_map["headers"]["cellsize"])))\
+              / current_map["headers"]["cellsize"]
     y_extent = current_map["headers"]["rows"]
 
     x_start = (current_map["headers"]["X_origin"]["offset"] - ll_x) / current_map["headers"]["cellsize"]
