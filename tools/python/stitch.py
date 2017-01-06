@@ -29,8 +29,7 @@ for root, dirs, files in os.walk(sys.argv[-2]):
                 raise ValueError("the cell sizes don't match up!")
             else:
                 pass
-            current_map["name"] = map_file
-            maps.append(current_map)
+            maps.append(map_file)
         except Exception as e:
             print "Couldn't parse %s. Error: %s" %(map_file, str(e))
             continue
@@ -40,6 +39,7 @@ for root, dirs, files in os.walk(sys.argv[-2]):
         if current_ur_x > ur_x or ur_x is None: ur_x = current_ur_x
         if current_ur_y > ur_y or ur_y is None: ur_y = current_ur_y
 
+print "Allocating memory for new map..."
 x_range = (ur_x - ll_x)/cell_size
 y_range = (ur_y - ll_y)/cell_size
 new_map = [
@@ -47,8 +47,10 @@ new_map = [
     for _ in range(y_range)
 ]
 
-for current_map in maps:
-    print "Stitching %s..." % current_map["name"]
+num_maps = len(maps)
+for idx, map_file in enumerate(maps):
+    current_map = esriParser(open(map_file, 'r').read()).esri()
+    print "[%d/%d] Stitching %s..." %(idx+1, num_maps, map_file)
     y_start = (ur_y - (current_map["headers"]["Y_origin"]["offset"] + (current_map["headers"]["rows"]*current_map["headers"]["cellsize"])))\
               / current_map["headers"]["cellsize"]
     y_extent = current_map["headers"]["rows"]
@@ -60,6 +62,7 @@ for current_map in maps:
         for x in range(x_start, x_start+x_extent):
             new_map[y][x] = current_map["data"][y-y_start][x-x_start]
 
+print "Writing new map out..."
 outfile = open(sys.argv[-1], 'w')
 outfile.write("NCOLS %d\n" %y_range)
 outfile.write("NROWS %d\n" %x_range)
