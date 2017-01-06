@@ -5,7 +5,7 @@ class esriParser(object):
         self.data = []
         self.nodata_value = -9999
 
-        lines = source.split("\n")
+        lines = source.replace("\r", "").split("\n")
         for line in lines:
             if line == "":
                 continue
@@ -22,9 +22,9 @@ class esriParser(object):
             elif "CELLSIZE" in line.upper():
                 self.cellsize = int(line.split()[-1])
             elif "NODATA_VALUE" in line.upper():
-                self.nodata_value = int(line.split()[-1])
+                self.nodata_value = float(line.split()[-1])
             else:
-                self.data.append([int(element) for element in line.split()])
+                self.data.append([float(element) for element in line.split()])
         self.validate()
 
     def esri(self):
@@ -47,7 +47,7 @@ class esriParser(object):
         assert type(self.yll) == type(1)
         assert type(self.corner == type(1))
         assert type(self.cellsize == type(1))
-        assert type(self.nodata_value == type(1))
+        assert type(self.nodata_value == type(1.0))
 
 class EsriTest(unittest.TestCase):
     def test_esri(self):
@@ -57,11 +57,11 @@ NROWS 5
 XLLCORNER 0
 YLLCORNER 0
 CELLSIZE 1
-0 0 9 0 0
-0 0 9 0 0
-0 0 0 0 0
-0 0 9 0 0
-0 0 9 0 0
+0.0 0.0 9.0 0.0 0.0
+0.0 0.0 9.0 0.0 0.0
+0.0 0.0 0.0 0.0 0.0
+0.0 0.0 9.0 0.0 0.0
+0.0 0.0 9.0 0.0 0.0
 """
         data = [
             [0, 0, 9, 0, 0],
