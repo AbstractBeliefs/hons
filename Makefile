@@ -35,7 +35,7 @@ toolclean:
 # Tests
 
 TEST_CXXFLAGS = -I $(GTEST_DIR)/include -I include
-TEST_OBJECTS = tests/commontest.o tests/cputest.o
+TEST_OBJECTS = tests/commontest.o tests/cputest.o tests/gputest.o
 TEST_LIBRARIES = $(LIBRARIES) tests/gtest_main.a
 
 test: tests/test.out
@@ -45,6 +45,9 @@ tests/commontest.o: tests/testsrc/commontest.cpp src/common.o include/common.h
 	$(CXX) $(TEST_CXXFLAGS) -c $< -o $@
 
 tests/cputest.o: tests/testsrc/cputest.cpp include/cpu.h
+	$(CXX) $(TEST_CXXFLAGS) -c $< -o $@
+
+tests/gputest.o: tests/testsrc/gputest.cpp include/gpu.h
 	$(CXX) $(TEST_CXXFLAGS) -c $< -o $@
 
 tests/test.out: $(TEST_OBJECTS) $(TEST_LIBRARIES)
