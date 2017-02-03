@@ -4,6 +4,10 @@
 *.aux
 *.out
 *.pdf
+*.bbl
+*.blg
+*.lof
+*.lot
 
 # C/C++
 *.a

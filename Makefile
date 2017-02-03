@@ -1,5 +1,5 @@
 all: test
-clean: testclean libraryclean toolclean
+clean: testclean libraryclean toolclean dissertationclean
 
 CXX = clang++
 CC = clang
@@ -75,5 +75,23 @@ tests/gtest-all.o : $(GTEST_SRCS_)
 tests/gtest_main.o : $(GTEST_SRCS_)
 	$(CXX) $(GTEST_CPPFLAGS) -I$(GTEST_DIR) $(GTEST_CXXFLAGS) -c \
             $(GTEST_DIR)/src/gtest_main.cc -o $@
+
+# Dissertation
+DISSERTATION = dissertation/dissertation.pdf
+dissertation: $(DISSERTATION)
+$(DISSERTATION): dissertation/dissertation.tex dissertation/dissertation.bib
+	cd dissertation && \
+	pdflatex dissertation.tex && \
+	bibtex dissertation && \
+	pdflatex dissertation.tex && \
+	pdflatex dissertation.tex             # Required to generate ToC
+
+dissertationclean:
+	rm -f dissertation/*.pdf
+	rm -f dissertation/*.aux
+	rm -f dissertation/*.bbl
+	rm -f dissertation/*.blg
+	rm -f dissertation/*.log
+
 
 .PHONY: all clean test testclean libraryclean toolclean
