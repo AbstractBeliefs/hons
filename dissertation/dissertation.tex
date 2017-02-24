@@ -38,12 +38,12 @@
 
 \begin{document}
 
-\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
-\begin{titlepage}
+    \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+    \begin{titlepage}
         \begin{center}
 
         \HRule \\[0.4cm]
-        {\Large \bfseries The Title of Your Dissertation\par} %TODO
+        {\Large \bfseries GPU Accelerated Calculation of Radio Viewsheds\par}
         \vspace{0.2cm}
         \HRule \\[1.5cm]
 
@@ -54,7 +54,7 @@
                 Gareth Pulham - 40099603
         \end{center}
         \end{minipage}
-        
+
         \vspace{2cm}
         \begin{minipage}{1\textwidth}
         \begin{center} \large
@@ -73,124 +73,131 @@
                 School of Computing
         \end{center}
         \end{minipage}
-        
+
         \vspace{1cm}
         {\large \today}
 
 
         \end{center}
-\end{titlepage}
+    \end{titlepage}
 
-\section*{Authorship Declaration}
-\vspace{0.5cm}
-\begin{flushleft}
-I, Gareth Pulham, confirm that this dissertation and the work presented in it are my own achievement.\newline
+    \section*{Authorship Declaration}
+    \vspace{0.5cm}
+    \begin{flushleft}
+    I, Gareth Pulham, confirm that this dissertation and the work presented in it are my own achievement.\newline
 
-Where I have consulted the published work of others this is always clearly attributed;\newline
+    Where I have consulted the published work of others this is always clearly attributed;\newline
 
-Where I have quoted from the work of others the source is always given. With the exception of such quotations this
-dissertation is entirely my own work;\newline
+    Where I have quoted from the work of others the source is always given. With the exception of such quotations this
+    dissertation is entirely my own work;\newline
 
-I have acknowledged all main sources of help; \newline
+    I have acknowledged all main sources of help; \newline
 
-If my research follows on from previous work or is part of a larger collaborative research project I have made clear
-exactly what was done by others and what I have contributed myself;\newline
+    If my research follows on from previous work or is part of a larger collaborative research project I have made clear
+    exactly what was done by others and what I have contributed myself;\newline
 
-I have read and understand the penalties associated with Academic Misconduct.\newline
+    I have read and understand the penalties associated with Academic Misconduct.\newline
 
-I also confirm that I have obtained informed consent from all people I have involved in the work in this dissertation
-following the School's ethical guidelines.\newline
-\end{flushleft}
+    I also confirm that I have obtained informed consent from all people I have involved in the work in this dissertation
+    following the School's ethical guidelines.\newline
+    \end{flushleft}
 
-\begin{flushleft} \large
-\emph{Signed:} \\
-\end{flushleft}
+    \begin{flushleft} \large
+    \emph{Signed:} \\
+    \end{flushleft}
 
-\vspace{.5cm}
+    \vspace{.5cm}
 
-\begin{flushleft} \large
-\emph{Date:} \\
-\end{flushleft}
+    \begin{flushleft} \large
+    \emph{Date:} \\
+    \end{flushleft}
 
-\vspace{.5cm}
+    \vspace{.5cm}
 
-\begin{flushleft} \large
-\emph{Matriculation no: } 40099603 \\
-\end{flushleft}
+    \begin{flushleft} \large
+    \emph{Matriculation no: } 40099603 \\
+    \end{flushleft}
 
-\pagebreak
-\section*{Data Protection Declaration}
-\vspace{0.5cm}
-\begin{flushleft}
-Under the 1998 Data Protection Act, The University cannot disclose your grade to an unauthorised person. However, other
-students benefit from studying dissertations that have their grades attached.\newline
-Please sign your name below one of the options below to state your preference.\newline
-\newline
-The University may make this dissertation, with indicative grade, available to others.\newline
-\newline
-The University may make this dissertation available to others, but the grade may not be disclosed.\newline
-\newline
-The University may not make this dissertation available to others.\newline
-\end{flushleft}
+    \pagebreak
+    \section*{Data Protection Declaration}
+    \vspace{0.5cm}
+    \begin{flushleft}
+    Under the 1998 Data Protection Act, The University cannot disclose your grade to an unauthorised person. However, other
+    students benefit from studying dissertations that have their grades attached.\newline
+    Please sign your name below one of the options below to state your preference.\newline
+    \newline
+    The University may make this dissertation, with indicative grade, available to others.\newline
+    \newline
+    The University may make this dissertation available to others, but the grade may not be disclosed.\newline
+    \newline
+    The University may not make this dissertation available to others.\newline
+    \end{flushleft}
 
-\pagebreak
+    \pagebreak
 
-\begin{abstract}
-    % fill the abstract in here
-\end{abstract}
-\pagebreak
+    \begin{abstract}
+        % fill the abstract in here
+    \end{abstract}
+    \pagebreak
 
-\tableofcontents % is generated for you
-\newpage
+    \tableofcontents % is generated for you
+    \newpage
 
-\listoftables %generated in same way as figures
-\newpage
+    \listoftables %generated in same way as figures
+    \newpage
 
-\listoffigures
-%you may have captions such as equations, listings etc they should all appear as required
-%these are done for you as long as you use \begin{figure}[placement settings] .. bla bla ... \end{figure}
-\newpage
+    \listoffigures
+    %you may have captions such as equations, listings etc they should all appear as required
+    %these are done for you as long as you use \begin{figure}[placement settings] .. bla bla ... \end{figure}
+    \newpage
 
-\section*{Acknowledgements}
-Insert acknowledgements here
-\subsection*{}
-I would like to thank my cat, dog and family.
-\newpage
+    \section*{Acknowledgements}
+    Insert acknowledgements here
+    \newpage
 
-\section{Introduction to Radio Viewsheds}
-\section{Introduction to GPU parallelism}
-\section{Methods of Calculating Radio Viewsheds}
-\section{Implementation - CPU and GPU Methods}
-\section{Methods of testing}
-\section{Results}
-\section{Further Applications and Future Work}
-\section{Conclusion}
-\section{ayy}
-    \cite{frans}
+    \section{Introduction to Radio Viewsheds}
+    % Introduction to what RVCs are and why they are useful. Cover specific use cases, and why they have impact across so
+    % many places.
+    \section{Introduction to GPU parallelism}
+    % Talk about CPU performance over time, and how it's beginning to stall for large data loads
+    % Talk a bit about Flynns taxonomy
+    % Talk about the shape and structure of GPU parallelism in context of the above points
+    % Compare OpenCL and CUDA
+    \section{Methods of Calculating Radio Viewsheds}
+    % Ray tracing, mainly.
+    \section{Prior Art}
+    \section{Implementation - CPU and GPU Methods}
+    \section{Methods of testing}
+    % Comparison to Naive CPU and previous implementations
+    \section{Results}
+    \section{Further Applications and Future Work}
+    \section{Conclusion}
+    \section{ayy}
+        \cite{frans}
 
-\bibliographystyle{IEEEtran}
-\bibliography{dissertation}
+    \bibliographystyle{IEEEtran}
+    \bibliography{dissertation}
 
-\newpage
-\begin{appendices}
-    \section{Project Overview}
-    %insert IPO
+    \newpage
+    \begin{appendices}
+        \section{Project Overview}
+        %insert IPO
 
-    \begin{subappendices}
-        \subsection{Example sub appendices}
-        ...
-    \end{subappendices}
+        \begin{subappendices}
+            \subsection{Example sub appendices}
+            ...
+        \end{subappendices}
 
-    \section{Second Formal Review Output}
-    Insert a copy of the project review form you were given at the end of the review by the second marker
+        \section{Second Formal Review Output}
+        Insert a copy of the project review form you were given at the end of the review by the second marker
 
-    \section{Diary Sheets (or other project management evidence)}
-    Insert diary sheets here together with any project management plan you have
+        \section{Diary Sheets (or other project management evidence)}
+        Insert diary sheets here together with any project management plan you have
 
-    \section{Appendix 4 and following}
-    insert content here and for each of the other appendices, the title may be just on a page by itself, the pages of
-    the appendices are not numbered, unless an included document such as a user manual or design document is itself
-    pager numbered.
-\end{appendices}
+        \section{Appendix 4 and following}
+        insert content here and for each of the other appendices, the title may be just on a page by itself, the pages of
+        the appendices are not numbered, unless an included document such as a user manual or design document is itself
+        pager numbered.
+    \end{appendices}
 
 \end{document}
