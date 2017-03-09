@@ -20,7 +20,7 @@ typedef struct {
 
     int32_t nodata;     // null value. Default -9999
 
-    int32_t* heightmap; // Data goes here
+    float* heightmap; // Data goes here
 } vs_heightmap_t;
 
 typedef struct {
@@ -35,7 +35,7 @@ typedef struct {
     bool* viewshed;     // Data goes here
 } vs_viewshed_t;
 
-vs_heightmap_t heightmap_from_array(uint32_t rows, uint32_t cols, int32_t *input);
+vs_heightmap_t heightmap_from_array(uint32_t rows, uint32_t cols, float *input);
 vs_heightmap_t heightmap_from_file(FILE* inputfile);
 
 vs_viewshed_t viewshed_from_array(uint32_t rows, uint32_t cols, bool *input);

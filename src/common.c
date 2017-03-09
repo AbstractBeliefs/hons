@@ -5,7 +5,7 @@
 #include <string.h>
 #include <stdio.h>
 
-vs_heightmap_t heightmap_from_array(uint32_t rows, uint32_t cols, int32_t *input){
+vs_heightmap_t heightmap_from_array(uint32_t rows, uint32_t cols, float *input){
     vs_heightmap_t heightmap;
 
     heightmap.rows = rows;
@@ -17,9 +17,9 @@ vs_heightmap_t heightmap_from_array(uint32_t rows, uint32_t cols, int32_t *input
     heightmap.yll = 0;
 
     heightmap.nodata = -9999;
-    heightmap.heightmap = calloc(rows * cols, sizeof(int32_t));
+    heightmap.heightmap = calloc(rows * cols, sizeof(float));
 
-    memcpy(heightmap.heightmap, input, rows*cols*sizeof(int32_t));
+    memcpy(heightmap.heightmap, input, rows*cols*sizeof(float));
 
     return heightmap;
 }
@@ -71,10 +71,10 @@ vs_heightmap_t heightmap_from_file(FILE* inputfile){
             fragment = strtok(NULL, " \n"); map.yll = atoi(fragment);
         }
         else if (!strcmp(fragment, "CELLSIZE")){ fragment = strtok(NULL, " \n"); map.cellsize = atoi(fragment); }
-        else if (!strcmp(fragment, "NODATA_VALUE")){ fragment = strtok(NULL, " \n"); map.nodata = atoi(fragment); }
+        else if (!strcmp(fragment, "NODATA_VALUE")){ fragment = strtok(NULL, " \n"); map.nodata = atof(fragment); }
         else {
             if (map.heightmap && cellcount < map.cols*map.rows){
-                map.heightmap[cellcount++] = atoi(fragment);
+                map.heightmap[cellcount++] = atof(fragment);
             }
         }
 
@@ -96,9 +96,9 @@ vs_viewshed_t viewshed_from_array(uint32_t rows, uint32_t cols, bool *input){
     viewshed.xll = 0;
     viewshed.yll = 0;
 
-    viewshed.viewshed = calloc(rows * cols, sizeof(int32_t));
+    viewshed.viewshed = calloc(rows * cols, sizeof(float));
 
-    memcpy(viewshed.viewshed, input, rows*cols*sizeof(int32_t));
+    memcpy(viewshed.viewshed, input, rows*cols*sizeof(float));
 
     return viewshed;
 }
