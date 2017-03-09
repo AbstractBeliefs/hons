@@ -8,7 +8,7 @@
 #include "common.h"
 #include "gpu.h"
 
-TEST(GPU, Curve){
+TEST(GPU, DISABLED_Curve){
     const char* rasterstring = \
         "NCOLS 21\n"
         "NROWS 21\n"
@@ -45,8 +45,8 @@ TEST(GPU, Curve){
 
     uint32_t horizon = 3.57 * sqrt(emitter_z);
 
-    curve_map(heightmap);
-    vs_viewshed_t viewshed = calculate_viewshed(heightmap, emitter_x,emitter_y,emitter_z);
+    gpu_curve_map(heightmap);
+    vs_viewshed_t viewshed = gpu_calculate_viewshed(heightmap, emitter_x,emitter_y,emitter_z);
 
     EXPECT_EQ(viewshed.viewshed[(viewshed.rows/2)*viewshed.cols + (viewshed.cols/2)+horizon], true) << "Horizon too close";
     EXPECT_EQ(viewshed.viewshed[(viewshed.rows/2)*viewshed.cols + (viewshed.cols/2)+horizon+1], false) << "Horizon too far";
@@ -68,7 +68,7 @@ TEST(GPU, CalcViewshed){
     FILE *rasterfile = fmemopen((char*)rasterstring, strlen(rasterstring), "r");
     vs_heightmap_t heightmap = heightmap_from_file(rasterfile);
 
-    vs_viewshed_t viewshed = calculate_viewshed(heightmap, 0, 2, 5);
+    vs_viewshed_t viewshed = gpu_calculate_viewshed(heightmap, 0, 2, 5);
 
     EXPECT_EQ(viewshed.viewshed[0*viewshed.cols+0], true);
     EXPECT_EQ(viewshed.viewshed[2*viewshed.cols+4], true);

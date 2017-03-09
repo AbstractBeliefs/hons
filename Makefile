@@ -15,7 +15,7 @@ src/common.o: include/common.h src/common.c
 src/cpu.o: include/cpu.h src/cpu.c
 	$(CC) $(LIB_CFLAGS) -c src/cpu.c -o src/cpu.o
 src/gpu.o: include/gpu.h src/gpu.c
-	$(CC) $(LIB_CFLAGS) -c src/gpu.c -o src/gpu.o
+	$(CC) $(LIB_CFLAGS) -l OpenCL -c src/gpu.c -o src/gpu.o
 
 libcpu.a: src/cpu.o src/common.o
 	$(AR) rcs $@ $^
@@ -34,7 +34,7 @@ toolclean:
 
 # Tests
 
-TEST_CXXFLAGS = -I $(GTEST_DIR)/include -I include
+TEST_CXXFLAGS = -I $(GTEST_DIR)/include -I include -lOpenCL
 TEST_OBJECTS = tests/commontest.o tests/cputest.o tests/gputest.o
 TEST_LIBRARIES = $(LIBRARIES) tests/gtest_main.a
 
