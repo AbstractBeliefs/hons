@@ -39,7 +39,8 @@ TEST_OBJECTS = tests/commontest.o tests/cputest.o tests/gputest.o
 TEST_LIBRARIES = $(LIBRARIES) tests/gtest_main.a
 
 test: tests/test.out
-	tests/test.out
+	# Exclude the slow perf tests
+	tests/test.out --gtest_filter="-Performance*"
 
 tests/commontest.o: tests/testsrc/commontest.cpp src/common.o include/common.h
 	$(CXX) $(TEST_CXXFLAGS) -c $< -o $@

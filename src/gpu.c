@@ -69,7 +69,7 @@ vs_viewshed_t gpu_calculate_viewshed(vs_heightmap_t heightmap, uint32_t emitter_
     cl_int err;
 
     // Number of work items in each local work group
-    localSize = 1;
+    localSize = 32;
 
     // Number of total work items - localSize must be devisor
     globalSize = ceil(heightmap.cols*heightmap.rows/(float)localSize)*localSize;
