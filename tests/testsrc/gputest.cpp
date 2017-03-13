@@ -49,12 +49,12 @@ TEST(GPU, CalcViewshed){
 }
 
 TEST(Performance, GPU5k){
-    time_t start_time = time(NULL);
     float *heightmap_source = (float*)calloc((5000+1) * (5000+1), sizeof(float));
     vs_heightmap_t heightmap = heightmap_from_array(5000+1, 5000+1, heightmap_source);
     
     uint32_t emitter_x = heightmap.cols/2 + 1, emitter_y = heightmap.rows/2 + 1;
     int32_t emitter_z = 5;
+    time_t start_time = time(NULL);
     vs_viewshed_t viewshed = gpu_calculate_viewshed(heightmap, emitter_x,emitter_y,emitter_z);
     time_t end_time = time(NULL);
     uint32_t time_diff = (uint32_t)difftime(end_time, start_time);
