@@ -29,8 +29,11 @@ libraryclean:
 tools/cpuviewshed/viewshed: tools/cpuviewshed/main.c libcpu.a
 	$(CC) -I include -lm $^ -o $@
 
+tools/gpuviewshed/viewshed: tools/gpuviewshed/main.c libgpu.a
+	$(CC) -I include -lm -lOpenCL $^ -o $@
+
 toolclean:
-	rm -f tools/cpuviewshed/viewshed
+	rm -f tools/cpuviewshed/viewshed tools/gpuviewshed/viewshed
 
 # Tests
 
