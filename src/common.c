@@ -84,6 +84,23 @@ vs_heightmap_t heightmap_from_file(FILE* inputfile){
     return map;
 }
 
+void heightmap_to_file(vs_heightmap_t heightmap, FILE* outputfile){
+    fprintf(outputfile, "NCOLS %d\n", heightmap.cols);
+    fprintf(outputfile, "NROWS %d\n", heightmap.rows);
+    fprintf(outputfile, "XLL%s %d\n", (heightmap.corner ? "CORNER" : "CENTER"), heightmap.xll);
+    fprintf(outputfile, "YLL%s %d\n", (heightmap.corner ? "CORNER" : "CENTER"), heightmap.yll);
+    fprintf(outputfile, "CELLSIZE %d\n", heightmap.cellsize);
+
+    for (size_t row = 0; row < heightmap.rows; row++){
+        for (size_t col = 0; col < heightmap.cols; col++){
+            fprintf(outputfile, "%f ", heightmap.heightmap[row*heightmap.cols+col]);
+        }
+        fseek(outputfile, -1, SEEK_CUR);
+        fprintf(outputfile, "\n");
+    }
+    fflush(outputfile);
+    return;
+}
 
 vs_viewshed_t viewshed_from_array(uint32_t rows, uint32_t cols, bool *input){
     vs_viewshed_t viewshed;

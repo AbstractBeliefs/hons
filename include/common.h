@@ -37,6 +37,7 @@ typedef struct {
 
 vs_heightmap_t heightmap_from_array(uint32_t rows, uint32_t cols, float *input);
 vs_heightmap_t heightmap_from_file(FILE* inputfile);
+void heightmap_to_file(vs_heightmap_t heightmap, FILE* outputfile);
 
 vs_viewshed_t viewshed_from_array(uint32_t rows, uint32_t cols, bool *input);
 void viewshed_to_file(vs_viewshed_t viewshed, FILE* outputfile);
