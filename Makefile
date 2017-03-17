@@ -92,6 +92,9 @@ dissertationclean:
 	rm -f dissertation/*.bbl
 	rm -f dissertation/*.blg
 	rm -f dissertation/*.log
+	rm -f dissertation/*.lof
+	rm -f dissertation/*.loc
+	rm -f dissertation/*.toc
 
 
 .PHONY: all clean test testclean libraryclean toolclean
