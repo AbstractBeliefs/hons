@@ -39,7 +39,7 @@ const char *kernelSource =                                                      
 "       float fraction = sqrt((float)(dx*dx + dy*dy)) / distance;                           \n" \
 "       float height_offset = fraction * dz;                                                \n" \
 "                                                                                           \n" \
-"       if (heightmap[cy*cols+cx] > emitter_z - height_offset){ visible = false; }          \n" \
+"       visible = visible && !signbit(((emitter_z - height_offset) - heightmap[cy*cols+cx]));\n" \
 "       if (cx == emitter_x && cy == emitter_y){ break; }                                   \n" \
 "       e2 = err;                                                                           \n" \
 "       if (e2 > -dx) { err -= dy; cx += sx; }                                              \n" \
