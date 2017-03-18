@@ -64,8 +64,8 @@ for idx, map_file in enumerate(maps):
 
 print "Writing new map out..."
 outfile = open(sys.argv[-1], 'w')
-outfile.write("NCOLS %d\n" %y_range)
-outfile.write("NROWS %d\n" %x_range)
+outfile.write("NCOLS %d\n" %x_range)
+outfile.write("NROWS %d\n" %y_range)
 outfile.write("CELLSIZE %d\n" %cell_size)
 outfile.write("XLLCORNER %d\n" %ll_x)
 outfile.write("YLLCORNER %d" %ll_y)
