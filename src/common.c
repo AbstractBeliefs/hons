@@ -34,6 +34,7 @@ vs_heightmap_t heightmap_from_file(FILE* inputfile){
     map.corner = true;
     map.xll = 0;
     map.yll = 0;
+    map.heightmap = NULL;
 
     map.nodata = -9999;
 
@@ -56,11 +57,11 @@ vs_heightmap_t heightmap_from_file(FILE* inputfile){
     while (fragment != NULL){
         if (!strcmp(fragment, "NROWS")){
             fragment = strtok(NULL, " \n"); map.rows = atoi(fragment);
-            if ((r_parse = true) && c_parse){ map.heightmap = calloc(map.rows * map.cols, sizeof(int32_t)); }
+            if ((r_parse = true) && c_parse){ map.heightmap = calloc(map.rows * map.cols, sizeof(float)); }
         }
         else if (!strcmp(fragment, "NCOLS")){
             fragment = strtok(NULL, " \n"); map.cols = atoi(fragment);
-            if ((c_parse = true) && r_parse){ map.heightmap = calloc(map.rows * map.cols, sizeof(int32_t)); }
+            if ((c_parse = true) && r_parse){ map.heightmap = calloc(map.rows * map.cols, sizeof(float)); }
         }
         else if (!strcmp(fragment, "XLLCORNER") || !strcmp(fragment, "XLLCENTER")){
             if (!strcmp(fragment, "XLLCORNER")){ map.corner = true; } else { map.corner = false; }
@@ -73,7 +74,7 @@ vs_heightmap_t heightmap_from_file(FILE* inputfile){
         else if (!strcmp(fragment, "CELLSIZE")){ fragment = strtok(NULL, " \n"); map.cellsize = atoi(fragment); }
         else if (!strcmp(fragment, "NODATA_VALUE")){ fragment = strtok(NULL, " \n"); map.nodata = atof(fragment); }
         else {
-            if (map.heightmap && cellcount < map.cols*map.rows){
+            if (map.heightmap != NULL && cellcount < map.cols*map.rows){
                 map.heightmap[cellcount++] = atof(fragment);
             }
         }
@@ -113,9 +114,9 @@ vs_viewshed_t viewshed_from_array(uint32_t rows, uint32_t cols, bool *input){
     viewshed.xll = 0;
     viewshed.yll = 0;
 
-    viewshed.viewshed = calloc(rows * cols, sizeof(float));
+    viewshed.viewshed = calloc(rows * cols, sizeof(bool));
 
-    memcpy(viewshed.viewshed, input, rows*cols*sizeof(float));
+    memcpy(viewshed.viewshed, input, rows*cols*sizeof(bool));
 
     return viewshed;
 }
